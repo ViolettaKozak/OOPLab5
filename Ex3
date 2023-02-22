@@ -1,0 +1,106 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class String {
+protected:
+    char* data;
+public:
+    String() {
+        data = new char[1];
+        data[0] = '\0';
+    }
+
+    String(const char* s) {
+        data = new char[strlen(s) + 1];
+        strcpy(data, s);
+    }
+
+    String(const String& other) {
+        data = new char[other.length() + 1];
+        strcpy(data, other.c_str());
+    }
+
+    virtual ~String() {
+        delete[] data;
+    }
+
+    size_t length() const {
+        return strlen(data);
+    }
+
+    const char* c_str() const {
+        return data;
+    }
+
+    virtual void input(istream& in) {
+        string str;
+        getline(in, str);
+        data = new char[str.length() + 1];
+        strcpy(data, str.c_str());
+    }
+
+    virtual void output(ostream& out) const {
+        out << data;
+    }
+
+    String& operator=(const String& other) {
+        if (this != &other) {
+            delete[] data;
+            data = new char[other.length() + 1];
+            strcpy(data, other.c_str());
+        }
+        return *this;
+    }
+
+};
+
+class DigitString : public String {
+public:
+    DigitString() : String() {}
+
+    DigitString(const char* s) {
+        data = new char[strlen(s) + 1];
+        strcpy(data, s);
+    }
+
+    DigitString(const String& other) {
+        data = new char[other.length() + 1];
+        strcpy(data, other.c_str());
+    }
+
+    void input(istream& in) override {
+        string str;
+        getline(in, str);
+        data = new char[str.length() + 1];
+        strcpy(data, str.c_str());
+        removeNonDigits();
+    }
+
+    void output(ostream& out) const override {
+        out << data;
+    }
+
+    DigitString& operator=(const DigitString& other) {
+        if (this != &other) {
+            delete[] data;
+            data = new char[other.length() + 1];
+            strcpy(data, other.c_str());
+        }
+        return *this;
+    }
+
+private:
+    void removeNonDigits() {
+        char* p = data;
+        while (*p) {
+            if (!isdigit(*p)) {
+                memmove(p, p+1, strlen(p));
+            } else {
+                p++;
+            }
+        }
+    }
+};
+
