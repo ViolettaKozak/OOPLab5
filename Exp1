@@ -1,0 +1,96 @@
+#include <iostream>
+
+using namespace std;
+
+class Quadrangle
+{	
+public:
+	int a, b, c, d;
+	float S=0, P=0;
+
+	Quadrangle() : Quadrangle(1) {};
+	Quadrangle(int k) : Quadrangle(k, k) {};
+	Quadrangle(int a, int c) { this->a = a, b = a, this->c = c, d = c; cout << "Quadrandle created\n"; };
+	~Quadrangle() 
+	{ 
+		a = b = c = d = 0; 
+		cout << "Quadrangle delete\n";
+	};
+
+	void Square() 
+	{
+		S = a * c;
+	};
+	void Perimetr() 
+	{
+		P = a + b + c + d;
+	};
+
+	virtual void PrintIn() {};
+};
+
+class Rectangle : public Quadrangle
+{
+public:
+	Rectangle() : Rectangle(1, 2) {};
+	Rectangle(int c, int d) { a = c, b = d, this->c = c, this->d = d; cout << "Rectangle created\n"; };
+	~Rectangle()
+	{
+		cout << "Rectangle deleted\n";
+	};
+
+	void PrintIn()
+	{
+		Square();
+		Perimetr();
+		cout << "Print info Rectangle:\nSides: a = " << a << " b = " << b << endl;
+		cout << "Square: " << S << " Perimetr: " << P << endl;
+	}
+};
+
+class Squarete : public Rectangle
+{
+public:
+	Squarete() : Squarete(1) {};
+	Squarete(int k) { a = b = c = d = k; cout << "Squarete created\n"; };
+	~Squarete()
+	{
+		cout << "Squarete deleted\n";
+	};
+
+	void PrintIn()
+	{
+		Square();
+		Perimetr();
+		cout << "Print info Square:\nSides: a = " << a << endl;
+		cout << "Square: " << S << " Perimetr: " << P << endl;
+	};
+};
+
+void main()
+{
+	Quadrangle qua(2, 4), *pqua1, *pqua2;
+	Rectangle rec1, rec2(4, 7), * prec;
+	Squarete sq1, sq2(5);
+
+	pqua1 = &rec1;
+	pqua2 = &sq1;
+	prec = &sq2;
+
+
+	cout << endl;
+	sq2.PrintIn();
+	cout << endl;
+	prec->PrintIn();
+	cout << endl;
+	pqua1->PrintIn();
+	cout << endl;
+	rec2.PrintIn();
+	cout << endl;
+	qua.PrintIn();
+	cout << endl;
+
+
+
+	system("pause");
+}
