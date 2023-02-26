@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <string.h>
 
 using namespace std;
 
@@ -35,10 +36,7 @@ public:
     }
 
     virtual void input(istream& in) {
-        string str;
-        getline(in, str);
-        data = new char[str.length() + 1];
-        strcpy(data, str.c_str());
+        in >> data;
     }
 
     virtual void output(ostream& out) const {
@@ -63,18 +61,18 @@ public:
     DigitString(const char* s) {
         data = new char[strlen(s) + 1];
         strcpy(data, s);
+        removeNonDigits();
     }
 
     DigitString(const String& other) {
         data = new char[other.length() + 1];
         strcpy(data, other.c_str());
+        removeNonDigits();
     }
 
     void input(istream& in) override {
-        string str;
-        getline(in, str);
-        data = new char[str.length() + 1];
-        strcpy(data, str.c_str());
+        //in >> data;
+        cin >> data;
         removeNonDigits();
     }
 
@@ -103,4 +101,3 @@ private:
         }
     }
 };
-
